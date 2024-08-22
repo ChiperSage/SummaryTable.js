@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Profit Table</title>
+</head>
+<body>
+    <h2>Product Table with Multiple Sums</h2>
+    <table id="profitTable" border="1">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th class="sumColumn1">Units Sold</th>
+                <th class="sumColumn2">Unit Price</th>
+                <th class="sumColumn3">Total Revenue</th>
+                <th class="sumColumn4">Profit</th>
+                <th class="sumColumn5">Cost</th>
+                <th class="sumColumn6">Discount</th>
+                <th class="sumColumn7">Tax</th>
+                <th class="sumColumn8">Net Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Product A</td>
+                <td class="sumColumn1">150</td>
+                <td class="sumColumn2">$20.00</td>
+                <td class="sumColumn3">$3,000.00</td>
+                <td class="sumColumn4">$1,500.00</td>
+                <td class="sumColumn5">$1,000.00</td>
+                <td class="sumColumn6">$100.00</td>
+                <td class="sumColumn7">$200.00</td>
+                <td class="sumColumn8">$1,200.00</td>
+            </tr>
+            <tr>
+                <td>Product B</td>
+                <td class="sumColumn1">200</td>
+                <td class="sumColumn2">$15.00</td>
+                <td class="sumColumn3">$3,000.00</td>
+                <td class="sumColumn4">$1,200.00</td>
+                <td class="sumColumn5">$900.00</td>
+                <td class="sumColumn6">$50.00</td>
+                <td class="sumColumn7">$150.00</td>
+                <td class="sumColumn8">$1,000.00</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td id="totalSumColumn1"><strong>0</strong></td>
+                <td id="totalSumColumn2"><strong>$0.00</strong></td>
+                <td id="totalSumColumn3"><strong>$0.00</strong></td>
+                <td id="totalSumColumn4"><strong>$0.00</strong></td>
+                <td id="totalSumColumn5"><strong>$0.00</strong></td>
+                <td id="totalSumColumn6"><strong>$0.00</strong></td>
+                <td id="totalSumColumn7"><strong>$0.00</strong></td>
+                <td id="totalSumColumn8"><strong>$0.00</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        function sumColumns(className) {
+            let total = 0;
+            const elements = document.querySelectorAll(`.${className}`);
+
+            elements.forEach(function(element) {
+                const value = parseFloat(element.textContent.replace(/[$,]/g, ''));
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+
+            return total;
+        }
+
+        function updateTotals() {
+            const columnClasses = [
+                'sumColumn1', 'sumColumn2', 'sumColumn3', 
+                'sumColumn4', 'sumColumn5', 'sumColumn6', 
+                'sumColumn7', 'sumColumn8'
+            ];
+
+            columnClasses.forEach((className, index) => {
+                const total = sumColumns(className);
+                const formattedTotal = index === 0 ? total : `$${total.toFixed(2)}`;
+                document.getElementById(`totalSumColumn${index + 1}`).innerHTML = `<strong>${formattedTotal}</strong>`;
+            });
+        }
+
+        // Run the update function on page load
+        updateTotals();
+    </script>
+</body>
+</html>
